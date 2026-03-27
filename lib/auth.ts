@@ -33,7 +33,7 @@ export const authOptions: any = {
       return session
     },
   },
-  pages: { signIn: '/admin/login' },
+  pages: { signIn: '/login' },
   session: { strategy: 'jwt', maxAge: 8 * 60 * 60 },
   secret: process.env.NEXTAUTH_SECRET,
 }
