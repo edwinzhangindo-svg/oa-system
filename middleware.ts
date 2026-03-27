@@ -3,20 +3,23 @@ import { NextResponse } from 'next/server'
 
 export default withAuth(
   function middleware(req) {
-    if (req.nextUrl.pathname === '/admin/login' && req.nextauth.token) {
-      return NextResponse.redirect(new URL('/admin/dashboard', req.url))
-    }
     return NextResponse.next()
   },
   {
     callbacks: {
       authorized({ token, req }) {
         const { pathname } = req.nextUrl
-        if (pathname.startsWith('/admin') && pathname !== '/admin/login') return !!token
+        if (pathname.startsWith('/admin/login')) return true
+        if (pathname.startsWith('/admin')) return !!token
         return true
       },
+    },
+    pages: {
+      signIn: '/admin/login',
     },
   }
 )
 
-export const config = { matcher: ['/admin/:path*'] }
+export const config = {
+  matcher: ['/admin/:path*'],
+}
